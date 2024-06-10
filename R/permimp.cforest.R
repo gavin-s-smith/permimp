@@ -3,11 +3,17 @@ permimp.RandomForest <- function (object, nperm = 1, OOB = TRUE, scaled = FALSE,
                                   conditional = FALSE, threshold = .95, whichxnames = NULL,   
                                   thresholdDiagnostics = FALSE, progressBar = TRUE, 
                                   pre1.0_0 = conditional, AUC = FALSE, asParty = FALSE, 
-                                  mincriterion = 0, ...)
+                                  mincriterion = 0, X_test = NULL, y_test = NULL,...)
 {
   # select input and responses (y)
   input <- object@data@get("input")
   y <- object@responses@variables[[1]]
+
+  # if we have a separate test set override
+  if( !is.null(X_test) ){
+    y <- y_test
+    input <- X_test
+  }
   
   # does not work for multivariate outcomes
   if (length(object@responses@variables) != 1) 
