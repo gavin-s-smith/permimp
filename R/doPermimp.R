@@ -73,12 +73,7 @@ doPermimp <- function(object, input, inp, y, OOB, threshold, conditional,
     
     ## prediction & error before permutation
     p <- pred(tree, inp, mincriterion, -1L, input)
-    print(p)
-    assign("p", p, envir = .GlobalEnv)
-    print(oob)
-    assign("oob", oob, envir = .GlobalEnv)
-    print(y)
-    assign("y", y, envir = .GlobalEnv)
+    
     eoob <- error(p, oob, y)
     
     ## select variables that are used for splitting in the current tree
