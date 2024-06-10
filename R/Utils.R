@@ -84,7 +84,7 @@ selectError <- function(type, AUC = FALSE)
     return(function(x, oob, y) mean((sapply(x, which.max) != y)[oob]))
   if (type == "regression")
     print('HELLO')
-    return(function(x, oob, y) cor(unlist(x), y)[oob]^2)
+    return(function(x, oob, y) cor(unlist(x)[oob], y[oob])^2)
   if (type == "classification")
     return(function(x, oob, y) mean((levels(y)[x] != y)[oob]))
 }
