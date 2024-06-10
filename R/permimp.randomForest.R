@@ -2,7 +2,7 @@
 permimp.randomForest <- function (object, nperm = 1, OOB = TRUE, scaled = FALSE,
                                   conditional = FALSE, threshold = .95, whichxnames = NULL,   
                                   thresholdDiagnostics = FALSE, progressBar = TRUE, 
-                                  do_check = TRUE, ...)
+                                  do_check = TRUE, X_test = NULL, y_test = NULL,...)
 {
   # get randomForest call
   rfCall <- match.call(randomForest, object$call, expand.dots = TRUE)
@@ -51,6 +51,14 @@ permimp.randomForest <- function (object, nperm = 1, OOB = TRUE, scaled = FALSE,
     input <- eval(rfCall$x, parent.frame())   # extract input
     
   }
+
+  # if we have a separate test set override
+  if( !is.null(X_test) ){
+    y <- y_test
+    input <- X_test
+  }
+
+  
   # weights etc. are not included in the current computation
   if(object$type == "classification" & !is.null(rfCall$classwt)) 
     warning(sQuote("permimp"), " does not take ", sQuote("classwt"), " into account during permuation and prediction. \n", "All observations are automatically weighed equally.",
